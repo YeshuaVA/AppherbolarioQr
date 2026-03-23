@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Elaboración de Té</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#f4f9f4;
+    text-align:center;
+}
+
+header{
+    background:#2e7d32;
+    color:white;
+    padding:20px;
+}
+
+section{
+    padding:20px;
+}
+
+img{
+    width:300px;
+    border-radius:15px;
+    margin:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+video{
+    width:320px;
+    border-radius:15px;
+    margin-top:15px;
+}
+
+#puzzle-container{
+    width:300px;
+    height:300px;
+    margin:20px auto;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    grid-template-rows:repeat(3, 1fr);
+    gap:2px;
+}
+
+.piece{
+    background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93');
+    background-size:300px 300px;
+    cursor:pointer;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    background:#388e3c;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>☕ AElaboración del Té</h1>
+</header>
+
+<section>
+<h2>¿Qué es el té?</h2>
+<p>El té es una bebida aromática preparada comúnmente vertiendo agua caliente sobre hojas de la planta Camellia sinensis.</p>
+<br><br>
+</section>
+<section>
+<img src="Herbolario1.jpg">
+<img src="App2.jpg">
+<br><br>
+</section>
+
+<section>
+<h2>Proceso de Elaboración</h2>
+<ol style="text-align:left; max-width:500px; margin:auto;">
+<li>Calentar el agua hasta hervir.</li>
+<li>Colocar las hojas o bolsita de té en una taza.</li>
+<li>Verter el agua caliente.</li>
+<li>Dejar reposar 3-5 minutos.</li>
+<li>Endulzar al gusto y disfrutar.</li>
+</ol>
+
+<h3>Video de Te</h3>
+<video controls>
+<source src="te.mp4" type="video/mp4">
+Tu navegador no soporta video.
+</video>
+</section>
+
+<section>
+<h2>🧩 Rompecabezas del Té</h2>
+<p>Haz clic en dos piezas para intercambiarlas y completar la imagen.</p>
+
+<div id="puzzle-container"></div>
+<button onclick="shuffle()">Mezclar</button>
+</section>
+
+<script>
+const container = document.getElementById("puzzle-container");
+let selected = null;
+
+for(let i=0;i<9;i++){
+    const piece = document.createElement("div");
+    piece.classList.add("piece");
+    piece.style.backgroundPosition = 
+        `${-100*(i%3)}px ${-100*Math.floor(i/3)}px`;
+    piece.dataset.index = i;
+    piece.onclick = function(){
+        if(selected === null){
+            selected = this;
+            this.style.border="3px solid red";
+        }else{
+            let tempPos = this.style.backgroundPosition;
+            this.style.backgroundPosition = selected.style.backgroundPosition;
+            selected.style.backgroundPosition = tempPos;
+            selected.style.border="none";
+            selected=null;
+        }
+    }
+    container.appendChild(piece);
+}
+
+function shuffle(){
+    const pieces = document.querySelectorAll(".piece");
+    pieces.forEach(piece=>{
+        let rand = Math.floor(Math.random()*9);
+        piece.style.backgroundPosition = 
+        `${-100*(rand%3)}px ${-100*Math.floor(rand/3)}px`;
+    });
+}
+</script>
+
+</body>
+</html>
